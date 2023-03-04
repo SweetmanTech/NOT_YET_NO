@@ -63,7 +63,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection }) => {
             >
               <iframe
                 className="h-[500px] sm:h-[800px]"
-                src="https://cdn.warpsound.ai/ipfs/QmVYW5vHaV322Kvp2So5ErngP1PrDUneYqo4e9TNygAGSn?playlist-url=https://nftstorage.link/ipfs/bafkreihyt356xnvnxv2dqalsxj3qj7yo3pbbbvq4vuq77bwcxpris37x2e"
+                src="https://cdn.warpsound.ai/ipfs/QmVYW5vHaV322Kvp2So5ErngP1PrDUneYqo4e9TNygAGSn?playlist-url=https://nftstorage.link/ipfs/bafkreiaf6cu4vfnz7kxplde2whapt76laktwrlliuizol76dgcd3zhh2ya"
                 frameBorder="0"
               ></iframe>
             </Well>
