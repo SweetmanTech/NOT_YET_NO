@@ -189,17 +189,17 @@ function SaleStatus({
             {isMinting ? (
               <SpinnerOG />
             ) : !account ? (
-              'Connectar billetera'
+              'Connect wallet'
             ) : !correctNetwork ? (
-              'Red incorrecta'
+              'Wrong network'
             ) : awaitingApproval ? (
-              'Confirmar en billetera'
+              'Confirm in wallet'
             ) : isMinted ? (
               'Minted'
             ) : saleNotStarted ? (
-              'No empezado'
+              'Not yet started'
             ) : availableMints < 1 ? (
-              'Límite de menta alcanzado'
+              'No mints available'
             ) : (
               'Mint'
             )}

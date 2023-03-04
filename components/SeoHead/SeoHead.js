@@ -4,8 +4,8 @@ const SeoHead = () => {
   const title = process.env.NEXT_PUBLIC_TITLE
   const description = process.env.NEXT_PUBLIC_DESCRIPTION_TEXT
   const image =
-    'https://nftstorage.link/ipfs/bafybeieey2oiswv6274lx7khmmw24kwkbyfiss2vjtf6oeo6sj7cb4mn2q'
-  const url = 'https://www.newfestivaltoken.art/'
+    'https://nftstorage.link/ipfs/bafybeid2v7ewhc3nsogbqrginxwys2ky3lxbmde72iafqmafsojz22f64e'
+  const url = 'https://notyetno.xyz/'
 
   return (
     <Head>
