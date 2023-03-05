@@ -39,12 +39,12 @@ export function MintDetails({
       <Stack gap="x3">
         <Flex gap="x3" justify="space-between">
           <Text variant="paragraph-sm" color="tertiary">
-            Number minted
+            Number sold
           </Text>
           <Text variant="paragraph-sm">
             {formattedMintedCount}
             {parseInt(collection.maxSupply) > OPEN_EDITION_SIZE ? (
-              ' NFTs'
+              ' Editions'
             ) : (
               <Box display="inline" color="tertiary">
                 /{formattedTotalSupplyCount}

@@ -28,7 +28,6 @@ export const getServerSideProps: GetStaticProps = async (context) => {
   // Get metadata renderer
   try {
     const dcntCollection = await getCollectionDCNT721A(contractAddressString, provider)
-    console.log('DCNT721A LIB RESPONSE', dcntCollection)
     if (dcntCollection) {
       return {
         props: { collection: dcntCollection, chainId: chain.id },
@@ -36,7 +35,6 @@ export const getServerSideProps: GetStaticProps = async (context) => {
     }
 
     const chillCollection = await getCollectionChillDrop(contractAddressString, provider)
-    console.log('chillCollection', chillCollection)
     return {
       props: { collection: chillCollection, chainId: chain.id },
     }
