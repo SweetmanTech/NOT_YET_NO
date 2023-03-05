@@ -16,7 +16,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection }) => {
     <>
       <SeoHead />
       <div
-        className="font-body flex grid grid-cols-6 p-5 justify-center align-center bg-[url('/images/background_1800.png')] "
+        className="font-body flex grid grid-cols-6 p-5 justify-center align-center bg-[url('/images/album-cover.jpeg')] "
         style={{ backgroundColor: '#f105cd' }}
       >
         <div className="order-1 flex col-span-6 md:col-span-3 justify-center">
