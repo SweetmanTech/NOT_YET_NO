@@ -16,7 +16,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection }) => {
     <>
       <SeoHead />
       <div
-        className="font-body flex grid grid-cols-6 p-5 justify-center align-center bg-[url('/images/background_1800.png')] "
+        className="font-body flex grid grid-cols-6 p-5 justify-center align-center bg-[url('/images/album-cover.jpeg')] "
         style={{ backgroundColor: '#f105cd' }}
       >
         <div className="order-1 flex col-span-6 md:col-span-3 justify-center">
@@ -29,11 +29,11 @@ const HomePage: NextPage<HomePageProps> = ({ collection }) => {
             While everyone has roots stretching back to Columbus, Ohio over half a decade
             ago, this project was created over the web, with collaborators in Ohio, DC and
             Argentina. “Not yet, no?” is the group&apos;s genesis music nft built as a
-            collaborative EP player, powered by the Decent protocol. This 5-track EP
-            features one track from each musician, as well as a closer that features in
-            put from everyone. It is the first of its kind for all four artists, marking
-            the beginning of a new era of merging art and technology for all involved.
-            While everyone was able to contribute what they saw fit, there is a cohesive
+            collaborative EP player, powered by decentralized protocols. This 5-track EP
+            features one track from each musician, as well as a closer that features input
+            from everyone. It is the first of its kind for all four artists, marking the
+            beginning of a new era of merging art and technology for all involved. While
+            everyone was able to contribute what they saw fit, there is a cohesive
             underline highlighted by the title: “Not yet, no?”. It&apos;s a hesitation, a
             question of one&apos;s role and timing.
           </p>

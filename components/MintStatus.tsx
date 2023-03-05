@@ -136,19 +136,21 @@ function SaleStatus({
 
   return (
     <>
-      <CrossmintPayButton
-        clientId={process.env.NEXT_PUBLIC_CROSSMINT_CLIENT_ID}
-        environment="staging"
-        className="xmint-btn"
-        // mintTo={account as string}
-        mintConfig={{
-          type: 'erc-721',
-          totalPrice: priceInEth,
-          _quantity: 1,
-          // _to: account as string,
-          _target: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-        }}
-      />
+      {!saleNotStarted && (
+        <CrossmintPayButton
+          clientId={process.env.NEXT_PUBLIC_CROSSMINT_CLIENT_ID}
+          environment="staging"
+          className="xmint-btn"
+          // mintTo={account as string}
+          mintConfig={{
+            type: 'erc-721',
+            totalPrice: priceInEth,
+            _quantity: 1,
+            // _to: account as string,
+            _target: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+          }}
+        />
+      )}
       <ConnectButton.Custom>
         {({ openChainModal, openConnectModal }) => (
           <Button
@@ -254,14 +256,17 @@ export function MintStatus({
   const [isMinted, setIsMinted] = useState<boolean>(false)
   const [mintCounter, setMintCounter] = useState(1)
   const [maticPrice, setMaticPrice] = useState(0)
+  const [showCryptoPrice, setShowCryptoPrice] = useState(false)
   const availableMints = maxPerWallet - (userMintedCount || 0)
   const internalPrice = allowlistEntry?.price || collection?.salesConfig?.publicSalePrice
   const displayPrice = useMemo(
     () =>
-      parseInt(
-        formatCryptoVal(Number(internalPrice) * maticPrice * (mintCounter || 1))
-      ).toFixed(2),
-    [internalPrice, mintCounter]
+      showCryptoPrice
+        ? formatCryptoVal(Number(internalPrice) * (mintCounter || 1))
+        : parseInt(
+            formatCryptoVal(Number(internalPrice) * maticPrice * (mintCounter || 1))
+          ).toFixed(2),
+    [internalPrice, mintCounter, showCryptoPrice, maticPrice]
   )
 
   useEffect(() => {
@@ -300,12 +305,18 @@ export function MintStatus({
     <Stack gap="x4">
       {showPrice && !saleIsFinished && !isSoldOut && (
         <Flex gap="x3" flexChildren justify="space-between" align="flex-end" wrap="wrap">
-          <Stack gap="x1" style={{ flex: 'none' }}>
+          <Stack
+            gap="x1"
+            style={{ flex: 'none' }}
+            onClick={() => setShowCryptoPrice(!showCryptoPrice)}
+          >
             <Eyebrow>Price</Eyebrow>
             <Heading size="sm" className={priceDateHeading}>
               {internalPrice === '0'
                 ? 'Free'
-                : `$${displayPrice == 0 ? 0.01 * mintCounter : displayPrice}`}
+                : `${showCryptoPrice ? '' : '$'}${
+                    displayPrice == 0 ? 0.01 * mintCounter : displayPrice
+                  } ${showCryptoPrice ? 'MATIC' : ''}`}
             </Heading>
           </Stack>
 

@@ -1,13 +1,10 @@
-import { ethers, utils } from 'ethers'
+import { utils } from 'ethers'
 import { GetStaticProps } from 'next'
-import { ipfsImage } from '@lib/helpers'
-import abi from '@lib/ERC721Drop-abi.json'
-import metadataAbi from '@lib/MetadataRenderer-abi.json'
-import metadataRendererAbi from '@lib/MetadataRenderer-abi.json'
 import getDefaultProvider from '@lib/getDefaultProvider'
 import { allChains } from 'wagmi'
 import HomePage from '@components/HomePage/HomePage'
-import getErc721Drop from '@lib/getErc721Drop'
+import getCollectionDCNT721A from '@lib/getCollectionDCNT721A'
+import getCollectionChillDrop from '@lib/getCollectionChillDrop'
 
 const MintPage = ({ collection, chainId }) => (
   <HomePage collection={collection} chainId={chainId} />
@@ -26,40 +23,20 @@ export const getServerSideProps: GetStaticProps = async (context) => {
   // Create Ethers Contract
   const chain = allChains.find((chain) => chain.id.toString() === chainId)
   const provider = getDefaultProvider(chain.network, chainId)
-  const contract = new ethers.Contract(contractAddress.toString(), abi, provider)
+  const contractAddressString = contractAddress.toString()
 
   // Get metadata renderer
   try {
-    const metadataRendererAddress = await contract.metadataRenderer()
-    const metadataRenderer = new ethers.Contract(
-      metadataRendererAddress,
-      metadataAbi,
-      provider
-    )
-    const base = await metadataRenderer.metadataBaseByContract(contractAddress.toString())
-    const uri = base.base
-    const metadataURI = ipfsImage(uri)
-    const axios = require('axios').default
-    const { data: metadata } = await axios.get(metadataURI)
+    const dcntCollection = await getCollectionDCNT721A(contractAddressString, provider)
+    if (dcntCollection) {
+      return {
+        props: { collection: dcntCollection, chainId: chain.id },
+      }
+    }
 
-    const salesConfig = await contract.salesConfig()
-    const price = salesConfig.publicSalePrice
-    const maxSalePurchasePerAddress = salesConfig.maxSalePurchasePerAddress
-    const totalSupply = await contract.totalSupply()
-    const config = await contract.config()
-    const maxSupply = config.editionSize
-
-    const erc721Drop = getErc721Drop(
-      contractAddress,
-      metadata,
-      price,
-      maxSalePurchasePerAddress,
-      totalSupply,
-      maxSupply
-    )
-
+    const chillCollection = await getCollectionChillDrop(contractAddressString, provider)
     return {
-      props: { collection: erc721Drop, chainId: chain.id },
+      props: { collection: chillCollection, chainId: chain.id },
     }
   } catch (error) {
     console.error(error)
