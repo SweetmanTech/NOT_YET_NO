@@ -29,7 +29,7 @@ const HomePage: NextPage<HomePageProps> = ({ collection }) => {
             While everyone has roots stretching back to Columbus, Ohio over half a decade
             ago, this project was created over the web, with collaborators in Ohio, DC and
             Argentina. “Not yet, no?” is the group&apos;s genesis music nft built as a
-            collaborative EP player, powered by the Decent protocol. This 5-track EP
+            collaborative EP player, powered by decentralized protocols. This 5-track EP
             features one track from each musician, as well as a closer that features in
             put from everyone. It is the first of its kind for all four artists, marking
             the beginning of a new era of merging art and technology for all involved.
