@@ -1,4 +1,13 @@
-const getErc721Drop = (contractAddress, metadata, price, maxSalePurchasePerAddress,totalSupply,maxSupply) => ( 
+const getErc721Drop = ({
+  contractAddress, 
+  metadata, 
+  price, 
+  maxSalePurchasePerAddress,
+  totalSupply,
+  maxSupply,
+  publicSaleStart = '0',
+  publicSaleEnd = '9223372036854775807'
+}) => ( 
     {
         id: 'string',
         created: {
@@ -19,8 +28,8 @@ const getErc721Drop = (contractAddress, metadata, price, maxSalePurchasePerAddre
         salesConfig: {
           publicSalePrice: price.toString(),
           maxSalePurchasePerAddress: maxSalePurchasePerAddress.toString(),
-          publicSaleStart: '0',
-          publicSaleEnd: '9223372036854775807',
+          publicSaleStart,
+          publicSaleEnd,
           presaleStart: '0',
           presaleEnd: '0',
           presaleMerkleRoot:
