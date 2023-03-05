@@ -136,19 +136,21 @@ function SaleStatus({
 
   return (
     <>
-      <CrossmintPayButton
-        clientId={process.env.NEXT_PUBLIC_CROSSMINT_CLIENT_ID}
-        environment="staging"
-        className="xmint-btn"
-        // mintTo={account as string}
-        mintConfig={{
-          type: 'erc-721',
-          totalPrice: priceInEth,
-          _quantity: 1,
-          // _to: account as string,
-          _target: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-        }}
-      />
+      {!saleNotStarted && (
+        <CrossmintPayButton
+          clientId={process.env.NEXT_PUBLIC_CROSSMINT_CLIENT_ID}
+          environment="staging"
+          className="xmint-btn"
+          // mintTo={account as string}
+          mintConfig={{
+            type: 'erc-721',
+            totalPrice: priceInEth,
+            _quantity: 1,
+            // _to: account as string,
+            _target: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+          }}
+        />
+      )}
       <ConnectButton.Custom>
         {({ openChainModal, openConnectModal }) => (
           <Button
@@ -264,7 +266,7 @@ export function MintStatus({
         : parseInt(
             formatCryptoVal(Number(internalPrice) * maticPrice * (mintCounter || 1))
           ).toFixed(2),
-    [internalPrice, mintCounter, showCryptoPrice]
+    [internalPrice, mintCounter, showCryptoPrice, maticPrice]
   )
 
   useEffect(() => {
