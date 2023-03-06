@@ -33,7 +33,6 @@ export const getServerSideProps: GetStaticProps = async (context) => {
         props: { collection: dcntCollection, chainId: chain.id },
       }
     }
-
     const chillCollection = await getCollectionChillDrop(contractAddressString, provider)
     return {
       props: { collection: chillCollection, chainId: chain.id },
