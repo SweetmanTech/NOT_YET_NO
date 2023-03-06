@@ -71,40 +71,22 @@ function SaleStatus({
 
   const mint = async () => {
     const { contractType } = collection
-    console.log('contractType', contractType)
 
     let contract
     let tx
     if (contractType === 'DCNT') {
-      try {
-        console.log('TRYING')
+      contract = new ethers.Contract(
+        process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+        abiDcnt,
+        signer
+      )
 
-        contract = new ethers.Contract(
-          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-          abiDcnt,
-          signer
-        )
-
-        tx = contract.mint(mintCounter, {
-          value: BigNumber.from(collection.salesConfig.publicSalePrice)
-            .mul(mintCounter)
-            .toString(),
-        })
-        return tx
-      } catch (e) {
-        console.log('CAUGHT')
-        contract = new ethers.Contract(
-          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-          abiDcnt2,
-          signer
-        )
-
-        tx = contract.mint(mintCounter, {
-          value: BigNumber.from(collection.salesConfig.publicSalePrice)
-            .mul(mintCounter)
-            .toString(),
-        })
-      }
+      tx = contract.mint(mintCounter, {
+        value: BigNumber.from(collection.salesConfig.publicSalePrice)
+          .mul(mintCounter)
+          .toString(),
+      })
+      return tx
     }
 
     contract = new ethers.Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, abi, signer)

@@ -15,15 +15,12 @@ const getCollectionDCNT721A = async (contractAddress: string, provider: any) => 
             const { data } = await axios.get(metadataURI)
             metadata = data
         } else {
-            console.log("onchain")
             const metadataRendererAddress = await contract.metadataRenderer();
-            console.log("metadataRendererAddress", metadataRendererAddress)
             const metadataRenderer = new Contract(metadataRendererAddress, abiMetadata, provider)
             const tokenURITarget = await metadataRenderer.tokenURITarget(0, contractAddress)
             const startIndex = tokenURITarget.indexOf(",") + 1
             const sub = tokenURITarget.substring(startIndex)
             const parse = atob(sub)
-            console.log("parse", parse)
             try {
                 let s = parse.replace(/\\n/g, "\\n")
                .replace(/\\'/g, "\\'")
@@ -38,21 +35,15 @@ const getCollectionDCNT721A = async (contractAddress: string, provider: any) => 
                 metadata = JSON.parse(s);
 
             } catch (e) {
-                console.log("FAILED")
                 console.error(e)
             }
         }
-        console.log("metadata", metadata)
-
         const price = await contract.tokenPrice()
-        console.log("price", price)
-
         const maxSalePurchasePerAddress = await contract.maxTokenPurchase()
         const totalSupply = await contract.totalSupply()
         const maxSupply = await contract.MAX_TOKENS();
         const publicSaleStart = await contract.saleStart()
         const publicSaleEnd = await contract.saleEnd()
-        console.log("publicSaleEnd", publicSaleEnd)
 
         const dropParams = {
             contractAddress,
