@@ -1,5 +1,6 @@
 import { Contract } from "ethers"
 import abi from "@lib/abi/abi-DCNT721A.json"
+import abiMetadata from "@lib/abi/abi-DCNTMetadataRenderer.json"
 import { ipfsImage } from "./helpers"
 import axios from "axios"
 import getErc721Drop from "./getErc721Drop"
@@ -8,14 +9,51 @@ const getCollectionDCNT721A = async (contractAddress: string, provider: any) => 
     try {
         const contract = new Contract(contractAddress, abi, provider)
         const baseURI = await contract.baseURI();
-        const metadataURI = ipfsImage(baseURI)
-        const { data: metadata } = await axios.get(metadataURI)
+        let metadata;
+        if (baseURI) {
+            const metadataURI = ipfsImage(baseURI)
+            const { data } = await axios.get(metadataURI)
+            metadata = data
+        } else {
+            console.log("onchain")
+            const metadataRendererAddress = await contract.metadataRenderer();
+            console.log("metadataRendererAddress", metadataRendererAddress)
+            const metadataRenderer = new Contract(metadataRendererAddress, abiMetadata, provider)
+            const tokenURITarget = await metadataRenderer.tokenURITarget(0, contractAddress)
+            const startIndex = tokenURITarget.indexOf(",") + 1
+            const sub = tokenURITarget.substring(startIndex)
+            const parse = atob(sub)
+            console.log("parse", parse)
+            try {
+                let s = parse.replace(/\\n/g, "\\n")
+               .replace(/\\'/g, "\\'")
+               .replace(/\\"/g, '\\"')
+               .replace(/\\&/g, "\\&")
+               .replace(/\\r/g, "\\r")
+               .replace(/\\t/g, "\\t")
+               .replace(/\\b/g, "\\b")
+               .replace(/\\f/g, "\\f");
+                // Remove non-printable and other non-valid JSON characters
+                s = parse.replace(/[\u0000-\u0019]+/g,"");
+                metadata = JSON.parse(s);
+
+            } catch (e) {
+                console.log("FAILED")
+                console.error(e)
+            }
+        }
+        console.log("metadata", metadata)
+
         const price = await contract.tokenPrice()
+        console.log("price", price)
+
         const maxSalePurchasePerAddress = await contract.maxTokenPurchase()
         const totalSupply = await contract.totalSupply()
         const maxSupply = await contract.MAX_TOKENS();
         const publicSaleStart = await contract.saleStart()
         const publicSaleEnd = await contract.saleEnd()
+        console.log("publicSaleEnd", publicSaleEnd)
+
         const dropParams = {
             contractAddress,
             metadata,
@@ -24,7 +62,8 @@ const getCollectionDCNT721A = async (contractAddress: string, provider: any) => 
             totalSupply,
             maxSupply,
             publicSaleStart: publicSaleStart.toString(),
-            publicSaleEnd: publicSaleEnd.toString()
+            publicSaleEnd: publicSaleEnd.toString(),
+            contractType: "DCNT"
         }
         const erc721Drop = getErc721Drop(dropParams)
         return erc721Drop

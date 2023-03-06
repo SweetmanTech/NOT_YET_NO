@@ -58,6 +58,7 @@ export interface SubgraphEditionMetadata {
 
 export interface SubgraphERC721Drop {
   id: string
+  contractType: string
   created: SubgraphTransactionInfo
   creator: string
   address: string

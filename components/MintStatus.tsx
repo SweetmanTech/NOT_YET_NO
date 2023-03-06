@@ -24,6 +24,8 @@ import { cleanErrors } from 'lib/errors'
 import { AllowListEntry } from 'lib/merkle-proof'
 import { BigNumber, ethers } from 'ethers'
 import abi from '@lib/ERC721Drop-abi.json'
+import abiDcnt from '@lib/abi/abi-DCNT721A.json'
+import abiDcnt2 from '@lib/abi/abi-DCNT721A_2.json'
 import handleTxError from 'lib/handleTxError'
 import { CrossmintPayButton } from '@crossmint/client-sdk-react-ui'
 import axios from 'axios'
@@ -68,16 +70,50 @@ function SaleStatus({
     })
 
   const mint = async () => {
-    const contract = new ethers.Contract(
-      process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-      abi,
-      signer
-    )
-    const tx = await contract.purchase(mintCounter, {
+    const { contractType } = collection
+    console.log('contractType', contractType)
+
+    let contract
+    let tx
+    if (contractType === 'DCNT') {
+      try {
+        console.log('TRYING')
+
+        contract = new ethers.Contract(
+          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+          abiDcnt,
+          signer
+        )
+
+        tx = contract.mint(mintCounter, {
+          value: BigNumber.from(collection.salesConfig.publicSalePrice)
+            .mul(mintCounter)
+            .toString(),
+        })
+        return tx
+      } catch (e) {
+        console.log('CAUGHT')
+        contract = new ethers.Contract(
+          process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+          abiDcnt2,
+          signer
+        )
+
+        tx = contract.mint(mintCounter, {
+          value: BigNumber.from(collection.salesConfig.publicSalePrice)
+            .mul(mintCounter)
+            .toString(),
+        })
+      }
+    }
+
+    contract = new ethers.Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, abi, signer)
+    tx = await contract.purchase(mintCounter, {
       value: BigNumber.from(collection.salesConfig.publicSalePrice)
         .mul(mintCounter)
         .toString(),
     })
+
     return tx
   }
 
@@ -136,10 +172,10 @@ function SaleStatus({
 
   return (
     <>
-      {!saleNotStarted && (
+      {/* {!saleNotStarted && (
         <CrossmintPayButton
           clientId={process.env.NEXT_PUBLIC_CROSSMINT_CLIENT_ID}
-          environment="staging"
+          environment="production"
           className="xmint-btn"
           // mintTo={account as string}
           mintConfig={{
@@ -150,7 +186,7 @@ function SaleStatus({
             _target: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
           }}
         />
-      )}
+      )} */}
       <ConnectButton.Custom>
         {({ openChainModal, openConnectModal }) => (
           <Button

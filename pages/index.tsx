@@ -29,10 +29,12 @@ export const getServerSideProps: GetStaticProps = async (context) => {
   try {
     const dcntCollection = await getCollectionDCNT721A(contractAddressString, provider)
     if (dcntCollection) {
+      console.log('DCNT')
       return {
         props: { collection: dcntCollection, chainId: chain.id },
       }
     }
+    console.log('NOT DCNT')
 
     const chillCollection = await getCollectionChillDrop(contractAddressString, provider)
     return {

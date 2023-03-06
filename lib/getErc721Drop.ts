@@ -6,10 +6,12 @@ const getErc721Drop = ({
   totalSupply,
   maxSupply,
   publicSaleStart = '0',
-  publicSaleEnd = '9223372036854775807'
+  publicSaleEnd = '9223372036854775807',
+  contractType = ""
 }) => ( 
     {
         id: 'string',
+        contractType,
         created: {
           id: 'string',
           block: 'string',
