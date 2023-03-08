@@ -158,12 +158,10 @@ function SaleStatus({
           clientId={process.env.NEXT_PUBLIC_CROSSMINT_CLIENT_ID}
           environment={process.env.VERCEL_ENV === 'production' ? 'production' : 'staging'}
           className="xmint-btn"
-          // mintTo={account as string}
           mintConfig={{
             type: 'erc-721',
             totalPrice: priceInEth,
             _quantity: 1,
-            // _to: account as string,
             _target: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
           }}
         />
