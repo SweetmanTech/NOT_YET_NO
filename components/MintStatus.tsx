@@ -153,7 +153,7 @@ function SaleStatus({
 
   return (
     <>
-      {/* {!saleNotStarted && (
+      {!saleNotStarted && (
         <CrossmintPayButton
           clientId={process.env.NEXT_PUBLIC_CROSSMINT_CLIENT_ID}
           environment="production"
@@ -167,7 +167,7 @@ function SaleStatus({
             _target: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
           }}
         />
-      )} */}
+      )}
       <ConnectButton.Custom>
         {({ openChainModal, openConnectModal }) => (
           <Button
