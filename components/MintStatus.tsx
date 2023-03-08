@@ -156,7 +156,7 @@ function SaleStatus({
       {!saleNotStarted && (
         <CrossmintPayButton
           clientId={process.env.NEXT_PUBLIC_CROSSMINT_CLIENT_ID}
-          environment="production"
+          environment={process.env.VERCEL_ENV === 'production' ? 'production' : 'staging'}
           className="xmint-btn"
           // mintTo={account as string}
           mintConfig={{
