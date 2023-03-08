@@ -169,7 +169,7 @@ function SaleStatus({
         />
       )}
       <ConnectButton.Custom>
-        {({ openChainModal, openConnectModal }) => (
+        {({ openConnectModal }) => (
           <Button
             icon={isMinted ? 'Check' : undefined}
             iconSize="sm"
