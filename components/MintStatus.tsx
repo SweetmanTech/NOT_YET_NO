@@ -62,6 +62,7 @@ function SaleStatus({
         .toString(),
     [collection.salesConfig.publicSalePrice]
   )
+  const isProd = useMemo(() => process.env.VERCEL_ENV === 'production', [])
   const { startDate, endDate, isSoldOut, saleIsActive, saleNotStarted, saleIsFinished } =
     useSaleStatus({
       collection,
@@ -161,13 +162,15 @@ function SaleStatus({
       {!saleNotStarted && (
         <CrossmintPayButton
           clientId={process.env.NEXT_PUBLIC_CROSSMINT_CLIENT_ID}
-          environment={process.env.VERCEL_ENV === 'production' ? 'production' : 'staging'}
+          environment={isProd ? 'production' : 'staging'}
           className="xmint-btn"
           mintConfig={{
             type: 'erc-721',
-            totalPrice: priceInEth,
+            totalPrice: isProd ? priceInEth : '0.00009',
             _quantity: 1,
-            _target: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
+            _target: isProd
+              ? process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
+              : '0xe21c011Fb50cd9888b1A32B2f4cEB22F933dD883',
           }}
         />
       )}
