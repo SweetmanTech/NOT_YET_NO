@@ -152,11 +152,6 @@ function SaleStatus({
     )
   }
 
-  console.log(
-    "process.env.VERCEL_ENV === 'production' ? 'production' : 'staging'",
-    process.env.VERCEL_ENV === 'production' ? 'production' : 'staging'
-  )
-
   return (
     <>
       {!saleNotStarted && (
