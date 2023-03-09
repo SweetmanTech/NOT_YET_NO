@@ -157,15 +157,13 @@ function SaleStatus({
       {!saleNotStarted && (
         <CrossmintPayButton
           clientId={process.env.NEXT_PUBLIC_CROSSMINT_CLIENT_ID}
-          environment={isProd ? 'production' : 'staging'}
+          environment="production"
           className="xmint-btn"
           mintConfig={{
             type: 'erc-721',
-            totalPrice: isProd ? priceInEth : '0.00009',
+            totalPrice: priceInEth,
             _quantity: 1,
-            _target: isProd
-              ? process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
-              : '0xe21c011Fb50cd9888b1A32B2f4cEB22F933dD883',
+            _target: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
           }}
         />
       )}
