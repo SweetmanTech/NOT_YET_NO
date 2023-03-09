@@ -8,7 +8,11 @@ import getErc721Drop from "./getErc721Drop"
 const getCollectionDCNT721A = async (contractAddress: string, provider: any) => {
     try {
         const contract = new Contract(contractAddress, abi, provider)
+        console.log("getting baseURI", contractAddress)
+        
+
         const baseURI = await contract.baseURI();
+        console.log("baseURI",baseURI)
         let metadata;
         if (baseURI) {
             const metadataURI = ipfsImage(baseURI)
