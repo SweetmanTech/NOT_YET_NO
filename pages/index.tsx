@@ -27,10 +27,7 @@ export const getServerSideProps: GetStaticProps = async (context) => {
 
   // Get metadata renderer
   try {
-    console.log('GETTING DCNT', provider)
     const dcntCollection = await getCollectionDCNT721A(contractAddressString, provider)
-    console.log('dcntCollection', dcntCollection)
-
     if (dcntCollection) {
       return {
         props: { collection: dcntCollection, chainId: chain.id },

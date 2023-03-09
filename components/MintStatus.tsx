@@ -156,7 +156,7 @@ function SaleStatus({
     <>
       {!saleNotStarted && (
         <CrossmintPayButton
-          clientId="282130a7-9d1a-4219-9359-f0bef59baec5"
+          clientId={process.env.NEXT_PUBLIC_CROSSMINT_CLIENT_ID}
           environment="production"
           className="xmint-btn"
           mintConfig={{
